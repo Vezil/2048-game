@@ -51,6 +51,28 @@ function drawGrid() {
     }
 }
 
+function slide(row) {
+    const spotsInRowWithValues = row.filter(value => value);
+    const spotsInRowWithoutValues = 4 - spotsInRowWithValues.length;
+    const zeros = Array(spotsInRowWithoutValues).fill(0);
+
+    spotsInRowWithValues.push(...zeros);
+
+    return spotsInRowWithValues;
+}
+
+function keyPressed() {
+    // 32 - space
+
+    if (keyCode === 32) {
+        for (let i = 0; i < 4; i++) {
+            grid[i] = slide(grid[i]);
+        }
+    }
+
+    addNumber()
+}
+
 function draw() {
     background(255);
 
