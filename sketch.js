@@ -5,9 +5,8 @@ function setup() {
 
     grid.push([0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]);
 
-    console.table(grid);
     addNumber();
-    console.table(grid);
+    addNumber();
 }
 
 function addNumber() {
@@ -29,9 +28,7 @@ function addNumber() {
     }
 }
 
-function draw() {
-    background(255);
-
+function drawGrid() {
     const width = 100;
 
     for (let i = 0; i < 4; i++) {
@@ -40,6 +37,22 @@ function draw() {
             strokeWeight(2);
             stroke(0);
             rect(width * i, width * j, width, width);
+
+            spotValue = grid[i][j];
+
+            if (spotValue !== 0) {
+                textAlign(CENTER, CENTER);
+                textSize(64);
+                fill(0);
+                noStroke();
+                text(spotValue, width * i + width / 2, width * j + width / 2);
+            }
         }
     }
+}
+
+function draw() {
+    background(255);
+
+    drawGrid();
 }
