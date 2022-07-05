@@ -1,9 +1,7 @@
-const grid = [];
+let grid = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
 
 function setup() {
     createCanvas(400, 400);
-
-    grid.push([0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]);
 
     addNumber();
     addNumber();
@@ -45,7 +43,7 @@ function copyGrid(grid) {
     return gridCopy;
 }
 
-function combine(row) {
+function combineGrid(row) {
     for (let i = 3; i >= 1; i--) {
         const firstElement = row[i];
         const secondElement = row[i - 1];
@@ -84,7 +82,7 @@ function drawGrid() {
     }
 }
 
-function slide(row) {
+function slideGrid(row) {
     const spotsInRowWithValues = row.filter(value => value);
     const spotsInRowWithoutValues = 4 - spotsInRowWithValues.length;
     const zeros = Array(spotsInRowWithoutValues).fill(0);
@@ -104,15 +102,67 @@ function compare(previousGrid, grid) {
     return false;
 }
 
+function flipGrid(grid) {
+    for (let i = 0; i < 4; i++) {
+        grid[i].reverse();
+    }
+
+    return grid;
+}
+
+function rotateGrid(grid) {
+    const newGrid = [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+    ];
+
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            newGrid[i][j] = grid[j][i];
+        }
+    }
+
+    return newGrid;
+}
+
 function keyPressed() {
-    // 32 - space
+    let isFlipped = false;
+    let isRotated = false;
+
+    if (keyCode === UP_ARROW) {
+        //
+    } else if (keyCode === DOWN_ARROW) {
+        grid = flipGrid(grid);
+
+        isFlipped = true;
+    } else if (keyCode === LEFT_ARROW) {
+        grid = rotateGrid(grid);
+
+        isRotated = true;
+    } else if (keyCode === RIGHT_ARROW) {
+        grid = rotateGrid(grid);
+        grid = flipGrid(grid);
+
+        isRotated = true;
+        isFlipped = true;
+    } else return;
 
     const previousGrid = copyGrid(grid);
 
-    if (keyCode === 32) {
-        for (let i = 0; i < 4; i++) {
-            grid[i] = operate(grid[i]);
-        }
+    for (let i = 0; i < 4; i++) {
+        grid[i] = operate(grid[i]);
+    }
+
+    if (isFlipped) {
+        flipGrid(grid);
+    }
+
+    if (isRotated) {
+        grid = rotateGrid(grid);
+        grid = rotateGrid(grid);
+        grid = rotateGrid(grid);
     }
 
     const isChange = compare(previousGrid, grid);
@@ -123,9 +173,9 @@ function keyPressed() {
 }
 
 function operate(row) {
-    row = slide(row);
-    row = combine(row);
-    row = slide(row);
+    row = slideGrid(row);
+    row = combineGrid(row);
+    row = slideGrid(row);
 
     return row;
 }
