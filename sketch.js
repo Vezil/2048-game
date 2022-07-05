@@ -1,10 +1,39 @@
-let grid = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+let grid = [
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0]
+];
+let score = 0;
 
 function setup() {
     createCanvas(400, 400);
+    noLoop();
 
     addNumber();
     addNumber();
+
+    updateCanvas();
+}
+
+function isGameOver() {
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            if (grid[i][j] === 0) {
+                return false;
+            }
+
+            if (i !== 3 && grid[i][j] === grid[i + 1][j]) {
+                return false;
+            }
+
+            if (j !== 3 && grid[i][j] === grid[i][j + 1]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 function addNumber() {
@@ -50,6 +79,9 @@ function combineGrid(row) {
 
         if (firstElement === secondElement) {
             row[i] = firstElement + secondElement;
+
+            score += row[i];
+
             row[i - 1] = 0;
 
             break;
@@ -73,7 +105,10 @@ function drawGrid() {
 
             if (spotValue !== 0) {
                 textAlign(CENTER, CENTER);
-                textSize(64);
+
+                const fontSize = map(log(spotValue),0, log(2048), 64, 16);
+
+                textSize(fontSize);
                 fill(0);
                 noStroke();
                 text(spotValue, width * i + width / 2, width * j + width / 2);
@@ -170,6 +205,12 @@ function keyPressed() {
     if (isChange) {
         addNumber();
     }
+
+    updateCanvas();
+
+    if (isGameOver()) {
+        console.log('GAME OVER');
+    }
 }
 
 function operate(row) {
@@ -180,8 +221,9 @@ function operate(row) {
     return row;
 }
 
-function draw() {
+function updateCanvas() {
     background(255);
-
     drawGrid();
+
+    select('#score').html(`Score: <b>${score}</b>`);
 }
