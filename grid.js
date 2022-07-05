@@ -64,20 +64,39 @@ function drawGrid() {
         for (let j = 0; j < 4; j++) {
             noFill();
             strokeWeight(2);
-            stroke(0);
-            rect(width * i, width * j, width, width);
 
             spotValue = grid[i][j];
 
-            if (spotValue !== 0) {
-                textAlign(CENTER, CENTER);
+            
+            stroke(0);
+            
+        
 
+            if (spotValue !== 0) {
+                fill(customStyles[spotValue].color);
+            } else {
+                noFill();
+            }
+
+     
+
+            rect(width * i, width * j, width, width);
+
+            if (spotValue !== 0) {
                 const fontSize = map(log(spotValue), 0, log(2048), 64, 16);
 
-                textSize(fontSize);
-                fill(0);
+                textAlign(CENTER, CENTER);
                 noStroke();
+                fill(0);
+                textSize(fontSize);
+
+                if(spotValue >= 128){
+                    fill(255);
+                }
+
                 text(spotValue, width * i + width / 2, width * j + width / 2);
+
+            
             }
         }
     }

@@ -18,6 +18,18 @@ function isGameOver() {
     return true;
 }
 
+function isVictory() {
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            if (grid[i][j] === 2048) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 function keyPressed() {
     let isFlipped = false;
     let isRotated = false;
@@ -66,5 +78,9 @@ function keyPressed() {
 
     if (isGameOver()) {
         console.log('GAME OVER');
+    }
+
+    if (isVictory()) {
+        console.log('GAME WON!');
     }
 }
