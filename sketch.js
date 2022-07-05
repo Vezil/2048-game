@@ -28,6 +28,39 @@ function addNumber() {
     }
 }
 
+function copyGrid(grid) {
+    const gridCopy = [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+    ];
+
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            gridCopy[i][j] = grid[i][j];
+        }
+    }
+
+    return gridCopy;
+}
+
+function combine(row) {
+    for (let i = 3; i >= 1; i--) {
+        const firstElement = row[i];
+        const secondElement = row[i - 1];
+
+        if (firstElement === secondElement) {
+            row[i] = firstElement + secondElement;
+            row[i - 1] = 0;
+
+            break;
+        }
+    }
+
+    return row;
+}
+
 function drawGrid() {
     const width = 100;
 
@@ -56,21 +89,45 @@ function slide(row) {
     const spotsInRowWithoutValues = 4 - spotsInRowWithValues.length;
     const zeros = Array(spotsInRowWithoutValues).fill(0);
 
-    spotsInRowWithValues.push(...zeros);
+    return spotsInRowWithValues.concat(zeros);
+}
 
-    return spotsInRowWithValues;
+function compare(previousGrid, grid) {
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            if (previousGrid[i][j] !== grid[i][j]) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 function keyPressed() {
     // 32 - space
 
+    const previousGrid = copyGrid(grid);
+
     if (keyCode === 32) {
         for (let i = 0; i < 4; i++) {
-            grid[i] = slide(grid[i]);
+            grid[i] = operate(grid[i]);
         }
     }
 
-    addNumber()
+    const isChange = compare(previousGrid, grid);
+
+    if (isChange) {
+        addNumber();
+    }
+}
+
+function operate(row) {
+    row = slide(row);
+    row = combine(row);
+    row = slide(row);
+
+    return row;
 }
 
 function draw() {
