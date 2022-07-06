@@ -5,8 +5,9 @@ function setup() {
     createCanvas(400, 400);
     noLoop();
 
-    addNumber();
-    addNumber();
+    for (let i = 0; i < 7; i++) {
+        addNumber(i);
+    }
 
     updateCanvas();
 }

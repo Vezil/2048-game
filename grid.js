@@ -7,7 +7,7 @@ function emptyGrid() {
     ];
 }
 
-function addNumber() {
+function addNumber(numberId) {
     const options = [];
 
     for (let i = 0; i < 4; i++) {
@@ -22,7 +22,11 @@ function addNumber() {
         const spot = random(options);
         const randomNumber = random(1);
 
-        grid[spot.x][spot.y] = randomNumber > 0.5 ? 2 : 4;
+        if (numberId === 5 || numberId === 6) {
+            grid[spot.x][spot.y] = randomNumber > 0.8 ? 8 : 16;
+        } else {
+            grid[spot.x][spot.y] = randomNumber > 0.5 ? 2 : 4;
+        }
     }
 }
 
@@ -67,18 +71,13 @@ function drawGrid() {
 
             spotValue = grid[i][j];
 
-            
             stroke(0);
-            
-        
 
             if (spotValue !== 0) {
                 fill(customStyles[spotValue].color);
             } else {
                 noFill();
             }
-
-     
 
             rect(width * i, width * j, width, width);
 
@@ -90,13 +89,11 @@ function drawGrid() {
                 fill(0);
                 textSize(fontSize);
 
-                if(spotValue >= 128){
+                if (spotValue >= 128) {
                     fill(255);
                 }
 
                 text(spotValue, width * i + width / 2, width * j + width / 2);
-
-            
             }
         }
     }
@@ -130,12 +127,16 @@ function flipGrid(grid) {
     return grid;
 }
 
-function rotateGrid(grid) {
+function transposeGrid(grid, direction) {
     const newGrid = emptyGrid();
 
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
-            newGrid[i][j] = grid[j][i];
+            if (direction === 1) {
+                newGrid[i][j] = grid[j][i];
+            } else {
+                newGrid[j][i] = grid[i][j];
+            }
         }
     }
 

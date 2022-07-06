@@ -32,25 +32,35 @@ function isVictory() {
 
 function keyPressed() {
     let isFlipped = false;
-    let isRotated = false;
+    let isTransposed = false;
 
-    if (keyCode === UP_ARROW) {
-        //
-    } else if (keyCode === DOWN_ARROW) {
-        grid = flipGrid(grid);
+    switch (keyCode) {
+        case UP_ARROW:
+            break;
+        case DOWN_ARROW:
+            grid = flipGrid(grid);
 
-        isFlipped = true;
-    } else if (keyCode === LEFT_ARROW) {
-        grid = rotateGrid(grid);
+            isFlipped = true;
 
-        isRotated = true;
-    } else if (keyCode === RIGHT_ARROW) {
-        grid = rotateGrid(grid);
-        grid = flipGrid(grid);
+            break;
+        case LEFT_ARROW:
+            grid = transposeGrid(grid, 1);
 
-        isRotated = true;
-        isFlipped = true;
-    } else return;
+            isTransposed = true;
+
+            break;
+        case RIGHT_ARROW:
+            grid = transposeGrid(grid, 1);
+            grid = flipGrid(grid);
+
+
+            isTransposed = true;
+            isFlipped = true;
+
+            break;
+        default:
+            return;
+    }
 
     const previousGrid = copyGrid(grid);
 
@@ -59,13 +69,11 @@ function keyPressed() {
     }
 
     if (isFlipped) {
-        flipGrid(grid);
+        grid = flipGrid(grid);
     }
 
-    if (isRotated) {
-        grid = rotateGrid(grid);
-        grid = rotateGrid(grid);
-        grid = rotateGrid(grid);
+    if (isTransposed) {
+        grid = transposeGrid(grid, -1);
     }
 
     const isChange = compare(previousGrid, grid);
