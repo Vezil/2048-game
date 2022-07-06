@@ -49,10 +49,10 @@ function combineGrid(row) {
 
         if (firstElement === secondElement) {
             row[i] = firstElement + secondElement;
+            row[i - 1] = 0;
+
 
             score += row[i];
-
-            row[i - 1] = 0;
 
             break;
         }
