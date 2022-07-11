@@ -1,39 +1,33 @@
 const FONT_DARK = 20;
 const FONT_BRIGHT = 240;
+
 const boardSize = 4;
+const canvasSize = 500;
 const firstValue = 2;
 const secondValue = 4;
 const newTiles = [];
-let canvasSize = 500;
+
 let tileSpeed = 20;
-let game;
-let canvas;
 let isUpdate = true;
+let tileBackgroundImage = null;
+let game = null;
+let canvas = null;
+
+function preload() {
+    tileBackgroundImage = loadImage('./images/tile-background-image.png');
+}
 
 function setup() {
     resetGame();
 
     const resetButton = createButton('RESET');
 
+    resetButton.id('reset-game-button')
+
     resetButton.mousePressed(resetGame);
 }
 
-function setCanvasSize() {
-    const sizes = [660, 500, 750, 1050, 1400, 1350, 1350, 1650, 500];
-    const values = ['3', '4', '5', '6', '7', '8', '9', '10'];
-
-    const index = values.indexOf(boardSize.toString());
-
-    if (index < 0) {
-        index = 8;
-    }
-
-    canvasSize = sizes[index];
-}
-
 function resetGame() {
-    setCanvasSize();
-
     const zoom = (500 / canvasSize) * 100;
     tileSpeed = 4000 / zoom;
 
@@ -87,7 +81,7 @@ function updateBoard() {
     fill(153);
 
     game.positions.forEach(position => {
-        rect(position.x - offset, position.y - offset, game.tileSize, game.tileSize);
+        image(tileBackgroundImage, position.x - offset, position.y - offset, game.tileSize, game.tileSize);
     });
 
     isUpdate = false;
@@ -100,7 +94,7 @@ function updateBoard() {
 
         fill(isFontBright ? FONT_BRIGHT : FONT_DARK);
 
-        textStyle(tile.isNew ? BOLD : NORMAL);
+        textStyle(NORMAL);
         textSize(tile.textSize());
         text(tile.value, tile.x, tile.y);
 
