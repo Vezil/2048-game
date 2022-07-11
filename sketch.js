@@ -1,7 +1,8 @@
+const FONT_DARK = 20;
+const FONT_BRIGHT = 240;
 const boardSize = 4;
-const value1 = 2;
-const value2 = 4;
-const valRatio = 0.9;
+const firstValue = 2;
+const secondValue = 4;
 const newTiles = [];
 let canvasSize = 500;
 let tileSpeed = 20;
@@ -42,11 +43,9 @@ function resetGame() {
 
     noStroke();
 
-    game = new Game(canvasSize, boardSize, value1, value2, valRatio);
+    game = new Game(canvasSize, boardSize, firstValue, secondValue);
 
     game.start();
-
-    console.log(game,'game')
 
     isUpdate = true;
 }
@@ -66,10 +65,10 @@ function keyPressed() {
             isMoveMade = game.moveHorizontal(false);
             break;
         case DOWN_ARROW:
-            isMoveMade =  game.moveVertical(false);
+            isMoveMade = game.moveVertical(false);
             break;
         case LEFT_ARROW:
-            isMoveMade =  game.moveHorizontal(true);
+            isMoveMade = game.moveHorizontal(true);
             break;
         default:
             return;
@@ -97,7 +96,10 @@ function updateBoard() {
         fill(tile.color());
         rect(tile.x - offset, tile.y - offset, tile.width, tile.height);
 
-        fill(76);
+        const isFontBright = (tile.value >= 128 && tile.value < 2048) || tile.value === 4;
+
+        fill(isFontBright ? FONT_BRIGHT : FONT_DARK);
+
         textStyle(tile.isNew ? BOLD : NORMAL);
         textSize(tile.textSize());
         text(tile.value, tile.x, tile.y);
@@ -111,7 +113,7 @@ function updateBoard() {
         }
     });
 
-    select('#score').html(game.score);
+    select('#score').html(`Score: ${game.score}`);
 }
 
 function draw() {
@@ -127,13 +129,12 @@ function draw() {
     }
 
     newTiles.forEach(tile => {
-        tile.isNew = false
+        tile.isNew = false;
     });
 
     game.addTile();
 
     updateBoard();
-
 
     if (!game.hasValidMove()) {
         console.log('GAME OVER');

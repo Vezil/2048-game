@@ -1,5 +1,5 @@
 class Game {
-    constructor(canvasSize, boardSize, val1, val2, valRatio) {
+    constructor(canvasSize, boardSize, val1, val2) {
         this.tiles = [];
         this.positions = [];
         this.canvasSize = canvasSize;
@@ -8,7 +8,7 @@ class Game {
         this.spacing = (0.2 * canvasSize) / (boardSize + 1);
         this.value1 = val1;
         this.value2 = val2;
-        this.valueRatio = valRatio;
+        this.valueRatio = 0.9;
         this.score = 0;
         this.highestValue = 0;
     }

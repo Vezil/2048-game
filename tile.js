@@ -20,18 +20,17 @@ class Tile {
 
     color() {
         const colors = [
-            '#f9f871',
-            '#ffc75f',
-            '#ff9671',
-            '#ff6f91',
-            '#d65db1',
-            '#845ec2',
-            '#2c73d2',
-            '#0081cf',
-            '#0089ba',
-            '#008e9b',
-            '#008f7a',
-            '#ffffff'
+            '#FFA822',
+            '#134E6F',
+            '#FF6150',
+            '#1AC0C6',
+            '#DEE0E6',
+            '#95ADBE',
+            '#574F7D',
+            '#503A65',
+            '#3C2A4D',
+            '#272643',
+            '#F6CD61'
         ];
         const values = ['2', '4', '8', '16', '32', '64', '128', '256', '512', '1024', '2048'];
         const index = values.indexOf(this.value.toString());
