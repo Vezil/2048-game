@@ -1,5 +1,2 @@
-Divide grid to tiles?
-Fix bug with merging some tiles
-Add speed
 Better styling
 Unit testing
