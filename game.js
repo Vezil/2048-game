@@ -10,7 +10,7 @@ class Game {
         this.value2 = val2;
         this.valueRatio = 0.9;
         this.score = 0;
-        this.highestValue = 0;
+        this.bestScore = localStorage.getItem('best-score') || 0;
     }
 
     start() {
@@ -160,17 +160,7 @@ class Game {
         return isMoveMade;
     }
 
-    setHighestValue() {
-        const highestValueTile = this.tiles.sort((tileA, tileB) => tileB.value - tileA.value)[0];
-
-        if (highestValueTile) {
-            this.highestValue = highestValueTile.value;
-        }
-    }
-
     updatePositions() {
-        this.setHighestValue();
-
         this.tiles = this.tiles.filter(tile => tile.isRemoved === false);
         this.tiles.forEach(tile => {
             tile.isMerged = false;
@@ -240,5 +230,21 @@ class Game {
         }
 
         return false;
+    }
+
+    setBestScore() {
+        if (!this.bestScore) {
+            localStorage.setItem('best-score', this.score);
+
+            select('#best-score').html(`Best Score: ${this.score}`);
+
+            return;
+        }
+
+        if (this.score > this.bestScore) {
+            localStorage.setItem('best-score', this.score);
+
+            select('#best-score').html(`Best Score: ${this.score}`);
+        }
     }
 }

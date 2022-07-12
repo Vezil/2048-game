@@ -22,7 +22,7 @@ function setup() {
 
     const resetButton = createButton('RESET');
 
-    resetButton.id('reset-game-button')
+    resetButton.id('reset-game-button');
 
     resetButton.mousePressed(resetGame);
 }
@@ -45,6 +45,12 @@ function resetGame() {
 }
 
 function keyPressed() {
+    if (keyCode === 82) {
+        resetGame();
+
+        return;
+    }
+
     if (isUpdate) {
         return;
     }
@@ -108,6 +114,7 @@ function updateBoard() {
     });
 
     select('#score').html(`Score: ${game.score}`);
+    select('#best-score').html(`Best Score: ${game.bestScore}`);
 }
 
 function draw() {
@@ -131,10 +138,14 @@ function draw() {
     updateBoard();
 
     if (!game.hasValidMove()) {
+        game.setBestScore();
+
         console.log('GAME OVER');
     }
 
     if (game.highestValue >= 2048) {
+        game.setBestScore();
+
         console.log('YOU WON!');
     }
 }

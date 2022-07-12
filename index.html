@@ -13,14 +13,31 @@
                 text-align: center;
             }
 
-            #score {
+            #score,
+            #best-score {
                 background-color: #777;
                 max-width: 200px;
                 font-size: 32px;
                 color: white;
-                margin: 12px auto 48px auto;
                 text-align: center;
-                box-shadow: 0px -5px 25px 16px rgba(0, 0, 0, 0.26);
+                background-clip: padding-box;
+                background-color: #243b48;
+                border: 1px solid transparent;
+                border-radius: 25px;
+                box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+            }
+
+            #score {
+                margin: 4px auto 12px auto;
+                line-height: 50px;
+            }
+
+            #best-score {
+                font-size: 16px;
+                opacity: 0.7;
+                margin: 12px auto 48px auto;
+                max-width: 160px;
+                line-height: 40px;
             }
 
             #game-wrapper > canvas {
@@ -47,7 +64,7 @@
                 padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
                 position: relative;
                 text-decoration: none;
-                transition: all 250ms;
+                transition: all 400ms;
                 user-select: none;
                 -webkit-user-select: none;
                 touch-action: manipulation;
@@ -57,21 +74,33 @@
                 margin-top: 24px;
             }
 
-            #reset-game-button:hover,
-            #reset-game-button:focus {
+            #reset-game-button:hover {
                 background-color: #6798b4;
                 box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+                color: #000;
             }
 
-            #reset-game-button:active {
-                background-color: #6798b4;
-                box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+            #reset-game-button:focus {
+                outline: 0;
+            }
+
+            .instruction {
+                color: white;
+                text-align: right;
+                opacity: 0.3;
+                width: 450px;
+                margin: auto auto -30px auto;
             }
         </style>
     </head>
 
     <body>
         <div id="score"></div>
+        <div id="best-score"></div>
         <div id="game-wrapper"></div>
+
+        <div class="instruction">
+            <p>Click <b>r</b> to reset</p>
+        </div>
     </body>
 </html>
