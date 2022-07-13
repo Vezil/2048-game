@@ -92,6 +92,9 @@ class Game {
                 previousTile.isRemoved = true;
                 tile.value *= 2;
                 this.score += tile.value;
+
+                this.newScoreAnimation(tile.value);
+
                 tile.isMerged = true;
                 tile.newX = previousTile.newX;
 
@@ -149,6 +152,9 @@ class Game {
                 previousTile.isRemoved = true;
                 tile.value *= 2;
                 this.score += tile.value;
+
+                this.newScoreAnimation(tile.value);
+
                 tile.isMerged = true;
                 tile.newY = previousTile.newY;
 
@@ -246,5 +252,21 @@ class Game {
 
             select('#best-score').html(`Best Score: ${this.score}`);
         }
+    }
+
+    newScoreAnimation(value) {
+        const newScoreDiv = select('#new-score');
+
+        newScoreDiv.html(`+${value}`);
+        newScoreDiv.style('opacity', 1);
+        newScoreDiv.style('transform', 'translateY(-12px)');
+
+        setTimeout(() => {
+            newScoreDiv.style('opacity', 0);
+        }, 300);
+
+        setTimeout(() => {
+            newScoreDiv.style('transform', 'translateY(0)');
+        }, 600);
     }
 }
