@@ -11,6 +11,7 @@ class Game {
         this.valueRatio = 0.9;
         this.score = 0;
         this.bestScore = localStorage.getItem('best-score') || 0;
+        this.highestTileValue = 0;
     }
 
     start() {
@@ -166,7 +167,17 @@ class Game {
         return isMoveMade;
     }
 
+    setHighestTileValue() {
+        const highestTileValue = this.tiles.sort((tileA, tileB) => tileB.value - tileA.value)[0];
+
+        if (highestTileValue) {
+            this.highestTileValue = highestTileValue.value;
+        }
+    }
+
     updatePositions() {
+        this.setHighestTileValue();
+
         this.tiles = this.tiles.filter(tile => tile.isRemoved === false);
         this.tiles.forEach(tile => {
             tile.isMerged = false;

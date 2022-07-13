@@ -28,6 +28,10 @@ function setup() {
 }
 
 function resetGame() {
+    if (!isLooping()) {
+        loop();
+    }
+
     const zoom = (500 / canvasSize) * 100;
     tileSpeed = 4000 / zoom;
 
@@ -117,6 +121,19 @@ function updateBoard() {
     select('#best-score').html(`Best Score: ${game.bestScore}`);
 }
 
+function endGameStyling(firstText, secondText) {
+    background(76, 76, 76, 170);
+    fill(0, 102, 153);
+    textStyle(BOLD);
+    stroke(0, 255, 255);
+    strokeWeight(3);
+    textSize(72);
+    text(firstText, canvasSize / 2, canvasSize / 2 - 35);
+    text(secondText, canvasSize / 2, canvasSize / 2 + 35);
+
+    noLoop();
+}
+
 function draw() {
     if (!isUpdate) {
         return;
@@ -140,12 +157,12 @@ function draw() {
     if (!game.hasValidMove()) {
         game.setBestScore();
 
-        console.log('GAME OVER');
+        endGameStyling('GAME', 'OVER!');
     }
 
-    if (game.highestValue >= 2048) {
+    if (game.highestTileValue >= 2048) {
         game.setBestScore();
 
-        console.log('YOU WON!');
+        endGameStyling('YOU', 'WON!');
     }
 }
