@@ -255,18 +255,16 @@ class Game {
     }
 
     newScoreAnimation(value) {
-        const newScoreDiv = select('#new-score');
+        const newScoreDiv = createDiv('RESET');
+
+        newScoreDiv.class('new-score');
 
         newScoreDiv.html(`+${value}`);
         newScoreDiv.style('opacity', 1);
-        newScoreDiv.style('transform', 'translateY(-12px)');
+        newScoreDiv.style('transform', 'translateY(-42px)');
 
         setTimeout(() => {
-            newScoreDiv.style('opacity', 0);
-        }, 300);
-
-        setTimeout(() => {
-            newScoreDiv.style('transform', 'translateY(0)');
+            newScoreDiv.remove()
         }, 600);
     }
 }
