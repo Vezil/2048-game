@@ -264,7 +264,7 @@ class Game {
         newScoreDiv.style('transform', 'translateY(-42px)');
 
         setTimeout(() => {
-            newScoreDiv.remove()
+            newScoreDiv.remove();
         }, 600);
     }
 }

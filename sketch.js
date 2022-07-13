@@ -20,7 +20,7 @@ function preload() {
 function setup() {
     resetGame();
 
-    const resetButton = createButton('RESET');
+    const resetButton = createButton('NEW GAME');
 
     resetButton.id('reset-game-button');
 
