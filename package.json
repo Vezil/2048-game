@@ -1,0 +1,17 @@
+{
+    "devDependencies": {
+        "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+        "jest": "^28.1.2",
+        "jest-environment-jsdom": "^28.1.2"
+    },
+    "name": "2048-game",
+    "description": "",
+    "version": "1.0.0",
+    "main": "index.html",
+    "scripts": {
+        "test": "jest"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}

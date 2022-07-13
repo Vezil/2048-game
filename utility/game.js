@@ -10,7 +10,7 @@ class Game {
         this.value2 = val2;
         this.valueRatio = 0.9;
         this.score = 0;
-        this.bestScore = localStorage.getItem('best-score') || 0;
+        this.bestScore = window.localStorage.getItem('best-score') || 0;
         this.highestTileValue = 0;
     }
 
@@ -251,7 +251,7 @@ class Game {
 
     setBestScore() {
         if (!this.bestScore) {
-            localStorage.setItem('best-score', this.score);
+            window.localStorage.setItem('best-score', this.score);
 
             select('#best-score').html(`Best Score: ${this.score}`);
 
@@ -259,7 +259,7 @@ class Game {
         }
 
         if (this.score > this.bestScore) {
-            localStorage.setItem('best-score', this.score);
+            window.localStorage.setItem('best-score', this.score);
 
             select('#best-score').html(`Best Score: ${this.score}`);
         }
@@ -279,3 +279,5 @@ class Game {
         }, 600);
     }
 }
+
+export default Game;

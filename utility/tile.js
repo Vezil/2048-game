@@ -66,3 +66,5 @@ class Tile {
         return true;
     }
 }
+
+export default Tile;
