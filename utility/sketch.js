@@ -1,6 +1,7 @@
 import Game from './game.js';
 
 // sketch as class and then index.js? or just to the html
+// https://www.youtube.com/watch?v=P0bkwncSJag&ab_channel=SonnySandberg
 
 const FONT_DARK = 20;
 const FONT_BRIGHT = 240;
