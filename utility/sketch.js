@@ -15,12 +15,12 @@ let tileBackgroundImage = null;
 let game = null;
 let canvas = null;
 
-new p5(function (p5) {
-    p5.preload = function () {
+const sketch = new p5(p5 => {
+    p5.preload = () => {
         tileBackgroundImage = p5.loadImage('./images/tile-background-image.png');
     };
 
-    p5.setup = function () {
+    p5.setup = () => {
         resetGame();
 
         const resetButton = p5.createButton('NEW GAME');
@@ -30,7 +30,7 @@ new p5(function (p5) {
         resetButton.mousePressed(resetGame);
     };
 
-    p5.keyPressed = function () {
+    p5.keyPressed = () => {
         if (p5.keyCode === 82) {
             resetGame();
 
@@ -63,7 +63,7 @@ new p5(function (p5) {
         isUpdate = isMoveMade;
     };
 
-    p5.draw = function () {
+    p5.draw = () => {
         if (!isUpdate) {
             return;
         }
@@ -160,7 +160,7 @@ new p5(function (p5) {
     function endGameStyling(firstText, secondText) {
         p5.background(76, 76, 76, 170);
         p5.fill(0, 102, 153);
-        p5.textStyle(BOLD);
+        p5.textStyle(p5.BOLD);
         p5.stroke(0, 255, 255);
         p5.strokeWeight(3);
         p5.textSize(72);
@@ -170,3 +170,5 @@ new p5(function (p5) {
         p5.noLoop();
     }
 });
+
+export default sketch;

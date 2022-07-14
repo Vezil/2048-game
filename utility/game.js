@@ -1,6 +1,6 @@
 import Tile from './tile.js';
 export default class Game {
-    constructor(p5,canvasSize, boardSize, val1, val2) {
+    constructor(p5,canvasSize, boardSize, firstValue, secondValue) {
         this.p5 = p5;
         this.tiles = [];
         this.positions = [];
@@ -8,8 +8,8 @@ export default class Game {
         this.boardSize = boardSize;
         this.tileSize = (0.8 * canvasSize) / boardSize;
         this.spacing = (0.2 * canvasSize) / (boardSize + 1);
-        this.value1 = val1;
-        this.value2 = val2;
+        this.firstValue = firstValue;
+        this.secondValue = secondValue;
         this.valueRatio = 0.9;
         this.score = 0;
         this.bestScore = window.localStorage.getItem('best-score') || 0;
@@ -35,7 +35,7 @@ export default class Game {
     addTile() {
         this.updatePositions();
 
-        const value = this.p5.random(1) < this.valueRatio ? this.value1 : this.value2;
+        const value = this.p5.random(1) < this.valueRatio ? this.firstValue : this.secondValue;
         const position = this.p5.random(this.positions.filter(position => position.isOpen === true));
 
         if (!position) {
