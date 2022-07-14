@@ -1,4 +1,5 @@
-class Game {
+import Tile from './tile.js';
+export default class Game {
     constructor(canvasSize, boardSize, val1, val2) {
         this.tiles = [];
         this.positions = [];
@@ -279,5 +280,3 @@ class Game {
         }, 600);
     }
 }
-
-export default Game;

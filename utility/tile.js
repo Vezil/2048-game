@@ -1,4 +1,4 @@
-class Tile {
+export default class Tile {
     constructor(height, width, value, x, y) {
         this.height = height;
         this.width = width;
@@ -66,5 +66,3 @@ class Tile {
         return true;
     }
 }
-
-export default Tile;

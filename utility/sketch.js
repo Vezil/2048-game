@@ -1,3 +1,7 @@
+import Game from './game.js';
+
+// sketch as class and then index.js? or just to the html
+
 const FONT_DARK = 20;
 const FONT_BRIGHT = 240;
 
