@@ -1,5 +1,6 @@
 export default class Tile {
-    constructor(height, width, value, x, y) {
+    constructor(p5, height, width, value, x, y) {
+        this.p5 = p5;
         this.height = height;
         this.width = width;
         this.value = value;
@@ -15,7 +16,7 @@ export default class Tile {
     textSize() {
         const { length } = this.value.toString();
 
-        return Math.floor(map(length, 1, 4, 64, 34));
+        return Math.floor(this.p5.map(length, 1, 4, 64, 34));
     }
 
     color() {

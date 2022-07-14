@@ -1,8 +1,5 @@
 import Game from './game.js';
 
-// sketch as class and then index.js? or just to the html
-// https://www.youtube.com/watch?v=P0bkwncSJag&ab_channel=SonnySandberg
-
 const FONT_DARK = 20;
 const FONT_BRIGHT = 240;
 
@@ -18,156 +15,158 @@ let tileBackgroundImage = null;
 let game = null;
 let canvas = null;
 
-function preload() {
-    tileBackgroundImage = loadImage('./images/tile-background-image.png');
-}
+new p5(function (p5) {
+    p5.preload = function () {
+        tileBackgroundImage = p5.loadImage('./images/tile-background-image.png');
+    };
 
-function setup() {
-    resetGame();
-
-    const resetButton = createButton('NEW GAME');
-
-    resetButton.id('reset-game-button');
-
-    resetButton.mousePressed(resetGame);
-}
-
-function resetGame() {
-    if (!isLooping()) {
-        loop();
-    }
-
-    const zoom = (500 / canvasSize) * 100;
-    tileSpeed = 4000 / zoom;
-
-    canvas = createCanvas(canvasSize, canvasSize);
-    canvas.parent('game-wrapper');
-    canvas.style('zoom', zoom + '%');
-
-    noStroke();
-
-    game = new Game(canvasSize, boardSize, firstValue, secondValue);
-
-    game.start();
-
-    isUpdate = true;
-}
-
-function keyPressed() {
-    if (keyCode === 82) {
+    p5.setup = function () {
         resetGame();
 
-        return;
-    }
+        const resetButton = p5.createButton('NEW GAME');
 
-    if (isUpdate) {
-        return;
-    }
+        resetButton.id('reset-game-button');
 
-    let isMoveMade = false;
+        resetButton.mousePressed(resetGame);
+    };
 
-    switch (keyCode) {
-        case UP_ARROW:
-            isMoveMade = game.moveVertical(true);
-            break;
-        case RIGHT_ARROW:
-            isMoveMade = game.moveHorizontal(false);
-            break;
-        case DOWN_ARROW:
-            isMoveMade = game.moveVertical(false);
-            break;
-        case LEFT_ARROW:
-            isMoveMade = game.moveHorizontal(true);
-            break;
-        default:
+    p5.keyPressed = function () {
+        if (p5.keyCode === 82) {
+            resetGame();
+
             return;
-    }
-
-    isUpdate = isMoveMade;
-}
-
-function updateBoard() {
-    textAlign(CENTER, CENTER);
-
-    let offset = game.tileSize / 2;
-
-    newTiles.length = 0;
-
-    fill(153);
-
-    game.positions.forEach(position => {
-        image(tileBackgroundImage, position.x - offset, position.y - offset, game.tileSize, game.tileSize);
-    });
-
-    isUpdate = false;
-
-    game.tiles.forEach(tile => {
-        fill(tile.color());
-        rect(tile.x - offset, tile.y - offset, tile.width, tile.height);
-
-        const isFontBright = (tile.value >= 128 && tile.value < 2048) || tile.value === 4;
-
-        fill(isFontBright ? FONT_BRIGHT : FONT_DARK);
-
-        textStyle(NORMAL);
-        textSize(tile.textSize());
-        text(tile.value, tile.x, tile.y);
-
-        if (tile.isNew) {
-            newTiles.push(tile);
         }
 
-        if (tile.setNewPosition(tileSpeed)) {
-            isUpdate = true;
+        if (isUpdate) {
+            return;
         }
-    });
 
-    select('#score').html(`Score: ${game.score}`);
-    select('#best-score').html(`Best Score: ${game.bestScore}`);
-}
+        let isMoveMade = false;
 
-function endGameStyling(firstText, secondText) {
-    background(76, 76, 76, 170);
-    fill(0, 102, 153);
-    textStyle(BOLD);
-    stroke(0, 255, 255);
-    strokeWeight(3);
-    textSize(72);
-    text(firstText, canvasSize / 2, canvasSize / 2 - 35);
-    text(secondText, canvasSize / 2, canvasSize / 2 + 35);
+        switch (p5.keyCode) {
+            case p5.UP_ARROW:
+                isMoveMade = game.moveVertical(true);
+                break;
+            case p5.RIGHT_ARROW:
+                isMoveMade = game.moveHorizontal(false);
+                break;
+            case p5.DOWN_ARROW:
+                isMoveMade = game.moveVertical(false);
+                break;
+            case p5.LEFT_ARROW:
+                isMoveMade = game.moveHorizontal(true);
+                break;
+            default:
+                return;
+        }
 
-    noLoop();
-}
+        isUpdate = isMoveMade;
+    };
 
-function draw() {
-    if (!isUpdate) {
-        return;
+    p5.draw = function () {
+        if (!isUpdate) {
+            return;
+        }
+
+        p5.background(76);
+        updateBoard();
+
+        if (isUpdate) {
+            return;
+        }
+
+        newTiles.forEach(tile => {
+            tile.isNew = false;
+        });
+
+        game.addTile();
+
+        updateBoard();
+
+        if (!game.hasValidMove()) {
+            game.setBestScore();
+
+            endGameStyling('GAME', 'OVER!');
+        }
+
+        if (game.highestTileValue >= 2048) {
+            game.setBestScore();
+
+            endGameStyling('YOU', 'WON!');
+        }
+    };
+
+    function resetGame() {
+        if (!p5.isLooping()) {
+            p5.loop();
+        }
+
+        const zoom = (500 / canvasSize) * 100;
+        tileSpeed = 4000 / zoom;
+
+        canvas = p5.createCanvas(canvasSize, canvasSize);
+        canvas.parent('game-wrapper');
+        canvas.style('zoom', zoom + '%');
+
+        p5.noStroke();
+
+        game = new Game(p5, canvasSize, boardSize, firstValue, secondValue);
+
+        game.start();
+
+        isUpdate = true;
     }
 
-    background(76);
-    updateBoard();
+    function updateBoard() {
+        p5.textAlign(p5.CENTER, p5.CENTER);
 
-    if (isUpdate) {
-        return;
+        let offset = game.tileSize / 2;
+
+        newTiles.length = 0;
+
+        p5.fill(153);
+
+        game.positions.forEach(position => {
+            p5.image(tileBackgroundImage, position.x - offset, position.y - offset, game.tileSize, game.tileSize);
+        });
+
+        isUpdate = false;
+
+        game.tiles.forEach(tile => {
+            p5.fill(tile.color());
+            p5.rect(tile.x - offset, tile.y - offset, tile.width, tile.height);
+
+            const isFontBright = (tile.value >= 128 && tile.value < 2048) || tile.value === 4;
+
+            p5.fill(isFontBright ? FONT_BRIGHT : FONT_DARK);
+
+            p5.textStyle(p5.NORMAL);
+            p5.textSize(tile.textSize());
+            p5.text(tile.value, tile.x, tile.y);
+
+            if (tile.isNew) {
+                newTiles.push(tile);
+            }
+
+            if (tile.setNewPosition(tileSpeed)) {
+                isUpdate = true;
+            }
+        });
+
+        p5.select('#score').html(`Score: ${game.score}`);
+        p5.select('#best-score').html(`Best Score: ${game.bestScore}`);
     }
 
-    newTiles.forEach(tile => {
-        tile.isNew = false;
-    });
+    function endGameStyling(firstText, secondText) {
+        p5.background(76, 76, 76, 170);
+        p5.fill(0, 102, 153);
+        p5.textStyle(BOLD);
+        p5.stroke(0, 255, 255);
+        p5.strokeWeight(3);
+        p5.textSize(72);
+        p5.text(firstText, canvasSize / 2, canvasSize / 2 - 35);
+        p5.text(secondText, canvasSize / 2, canvasSize / 2 + 35);
 
-    game.addTile();
-
-    updateBoard();
-
-    if (!game.hasValidMove()) {
-        game.setBestScore();
-
-        endGameStyling('GAME', 'OVER!');
+        p5.noLoop();
     }
-
-    if (game.highestTileValue >= 2048) {
-        game.setBestScore();
-
-        endGameStyling('YOU', 'WON!');
-    }
-}
+});

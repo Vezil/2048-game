@@ -1,6 +1,7 @@
 import Tile from './tile.js';
 export default class Game {
-    constructor(canvasSize, boardSize, val1, val2) {
+    constructor(p5,canvasSize, boardSize, val1, val2) {
+        this.p5 = p5;
         this.tiles = [];
         this.positions = [];
         this.canvasSize = canvasSize;
@@ -34,8 +35,8 @@ export default class Game {
     addTile() {
         this.updatePositions();
 
-        const value = random(1) < this.valueRatio ? this.value1 : this.value2;
-        const position = random(this.positions.filter(position => position.isOpen === true));
+        const value = this.p5.random(1) < this.valueRatio ? this.value1 : this.value2;
+        const position = this.p5.random(this.positions.filter(position => position.isOpen === true));
 
         if (!position) {
             return;
@@ -43,7 +44,7 @@ export default class Game {
 
         position.isOpen = false;
 
-        const newTile = new Tile(this.tileSize, this.tileSize, value, position.x, position.y);
+        const newTile = new Tile(this.p5, this.tileSize, this.tileSize, value, position.x, position.y);
 
         this.tiles.push(newTile);
     }
@@ -254,7 +255,7 @@ export default class Game {
         if (!this.bestScore) {
             window.localStorage.setItem('best-score', this.score);
 
-            select('#best-score').html(`Best Score: ${this.score}`);
+            this.p5.select('#best-score').html(`Best Score: ${this.score}`);
 
             return;
         }
@@ -262,12 +263,12 @@ export default class Game {
         if (this.score > this.bestScore) {
             window.localStorage.setItem('best-score', this.score);
 
-            select('#best-score').html(`Best Score: ${this.score}`);
+            this.p5.select('#best-score').html(`Best Score: ${this.score}`);
         }
     }
 
     newScoreAnimation(value) {
-        const newScoreDiv = createDiv('RESET');
+        const newScoreDiv = this.p5.createDiv('RESET');
 
         newScoreDiv.class('new-score');
 
