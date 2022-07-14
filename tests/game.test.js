@@ -1,9 +1,10 @@
-import './mocks/mock-local-storage';
 import Game from '../utility/game.js';
+import P5 from './mocks/p5';
+import './mocks/mock-local-storage';
 
-// const game = new Game(500, 4, 2, 4);
+const p5 = new P5();
 
-console.log(Game,'Game')
+const game = new Game(p5, 500, 4, 2, 4);
 
 test('game test setup', () => {
     expect(true).toBe(true);
