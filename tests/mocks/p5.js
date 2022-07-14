@@ -5,6 +5,9 @@ class P5 {
     map(length) {
         return length === 1 ? 64 : 0;
     }
+    random(value) {
+        return Array.isArray(value) ? value[0] : value;
+    }
 }
 
 global.p5 = P5;
